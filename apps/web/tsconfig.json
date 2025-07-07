@@ -13,12 +13,11 @@
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true,
-    "noEmit": true,
-    "incremental": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true
+    "skipLibCheck": true, // 라이브러리 파일의 타입 검사를 건너뜁니다.
+    "noEmit": true, // 컴파일 시 출력 파일을 생성하지 않습니다.
+    "esModuleInterop": true, // CommonJS 모듈을 ES 모듈처럼 가져올 수 있게 합니다.
+    "resolveJsonModule": true, // JSON 파일을 모듈로 가져올 수 있게 합니다.
+    "isolatedModules": true // 각 파일을 독립적으로 처리합니다.
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
