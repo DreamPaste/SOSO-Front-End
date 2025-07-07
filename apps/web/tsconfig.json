@@ -1,31 +1,25 @@
-// apps/web/tsconfig.json
+//src : apps/web/tsconfig.json
 {
-  "extends": "../../tools/typescript-config/tsconfig.base.json",
+  "extends": "../../tsconfig.json",
+
   "compilerOptions": {
+    /* Next.js 전용 플러그인 / jsx 처리 */
     "jsx": "preserve",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": ["./src/*"]
-    },
+    "plugins": [{ "name": "next" }],
+
+    /* 앱 내부 별칭 → @/… */
+    "baseUrl": "./",
+    "paths": { "@/*": ["src/*"] },
+
+    /* DOM 타입(+ ESNext) – 질문 ⑤ */
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true, // 라이브러리 파일의 타입 검사를 건너뜁니다.
-    "noEmit": true, // 컴파일 시 출력 파일을 생성하지 않습니다.
-    "esModuleInterop": true, // CommonJS 모듈을 ES 모듈처럼 가져올 수 있게 합니다.
-    "resolveJsonModule": true, // JSON 파일을 모듈로 가져올 수 있게 합니다.
-    "isolatedModules": true // 각 파일을 독립적으로 처리합니다.
+
+    /* Project References 빌드시 의존성 그래프 작성 – 질문 ④ */
+    "composite": true,
+
+    /* build 산출물은 Next가 swc로 하므로 tsc는 검사 전용 */
+    "noEmit": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "next.config.js",
-    "tailwind.config.js"
-  ],
-  "exclude": ["node_modules"]
+
+  "include": ["next-env.d.ts", "src", ".next/types/**/*.ts"]
 }
