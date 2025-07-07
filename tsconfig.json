@@ -1,0 +1,7 @@
+{
+  "extends": "./tools/typescript-config/tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true
+  },
+  "include": ["apps", "tools"]
+}

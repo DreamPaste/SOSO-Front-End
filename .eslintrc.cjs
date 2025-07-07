@@ -1,4 +1,4 @@
 module.exports = {
   root: true,
-  extends: ['./tools/eslint-config'], // 공통 규칙
+  extends: ['./tools/eslint-config/index.cjs'],
 };
