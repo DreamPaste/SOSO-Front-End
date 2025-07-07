@@ -1,3 +1,4 @@
+// apps/web/tsconfig.json
 {
   "extends": "../../tools/typescript-config/tsconfig.base.json",
   "compilerOptions": {

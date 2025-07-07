@@ -10,6 +10,14 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [...compat.extends('next/core-web-vitals', 'next/typescript')];
+const config = [
+  ...compat.extends('next/core-web-vitals', 'next', 'airbnb', 'airbnb-typescript', 'prettier'),
+  {
+    rules: {
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-filename-extension': [1, { extensions: ['.tsx'] }],
+    },
+  },
+];
 
-export default eslintConfig;
+export default config;
