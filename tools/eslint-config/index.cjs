@@ -1,27 +1,42 @@
-// tools/eslint-config/index.cjs
-/** 공통 ESLint 설정 (ESLint v8.x) */
+/* tools/eslint-config/index.cjs  ───── 공통 ESLint preset */
+
+const path = require('path');
 
 module.exports = {
-  /* 상위 .eslintrc에서 병합하도록 root: false (루트만 true) */
+  /* 이 파일은 서브-preset이므로 root=false */
   root: false,
 
+  /* TypeScript AST 파서 지정 */
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    // 모노레포 루트의 tsconfig.json 을 지정해야 타입-기반 룰이 동작
+    project: [path.resolve(__dirname, '../../tsconfig.json')],
+    tsconfigRootDir: path.resolve(__dirname, '../../'),
+    sourceType: 'module',
+  },
+
+  plugins: ['@typescript-eslint'],
+
   extends: [
-    'plugin:@typescript-eslint/recommended',
     'airbnb',
     'airbnb-typescript',
-    'next', // Next.js 기본 규칙
-    'next/core-web-vitals', // Next.js 14 전용 최적 가이드
-    'prettier', // Prettier와 충돌 제거
+    'plugin:@typescript-eslint/recommended',
+    'next',
+    'next/core-web-vitals',
+    'prettier',
   ],
 
-  /* TypeScript용 파서 설정(airbnb-typescript 권장) */
-  parserOptions: {
-    project: ['./tsconfig.json'], // 각 패키지 tsconfig 위치
-  },
-  plugins: ['@typescript-eslint'],
   rules: {
-    'react/react-in-jsx-scope': 'off', // Next.js 14+에서 React import 필요 없음
+    /* React 17+ 는 import React 불필요 */
+    'react/react-in-jsx-scope': 'off',
+    /* .tsx 파일만 JSX 허용 */
     'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }],
-    '@next/next/no-html-link-for-pages': 'off', // App Router에서는 필요 없음
+    /* App Router 프로젝트이므로 pages 전용 규칙 끔 */
+    '@next/next/no-html-link-for-pages': 'off',
+    '@typescript-eslint/lines-between-class-members': 'off',
+    '@typescript-eslint/no-throw-literal': 'off',
+    '@typescript-eslint/dot-notation': 'off',
+    '@typescript-eslint/no-implied-eval': 'off',
+    '@typescript-eslint/return-await': 'off',
   },
 };
