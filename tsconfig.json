@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    /* 공통 옵션 */
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* 타입 검사 전용: 결과 파일을 생성하지 않음 */
+    "noEmit": true
+  },
+
+  /* 애플리케이션 소스만 포함 (설정·빌드 파일 제외) */
+  "include": ["apps/**/*.ts", "apps/**/*.tsx"],
+
+  /* 타입 정의 패키지 직접 추가 (질문 ①) */
+  "typeRoots": ["./packages/types", "./node_modules/@types"]
+}
