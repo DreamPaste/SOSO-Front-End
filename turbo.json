@@ -1,5 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "noUpdateNotifier": true,
   "globalDependencies": [],
   "tasks": {
     "dev": {
@@ -10,6 +11,10 @@
       "outputs": [".next/**", "dist/**"]
     },
     "lint": {},
-    "test": {}
+    "typecheck": {},
+    "test": {},
+    "test:coverage": {
+      "outputs": ["coverage/**"]
+    }
   }
 }

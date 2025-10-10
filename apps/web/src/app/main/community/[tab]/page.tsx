@@ -1,8 +1,12 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { CategoryTab } from '@/components/tabs/CategoryTab';
-import { CATEGORIES, Categories } from '@/constants/categories';
+import { PillChipsTab } from '@/components/tabs/PillChipsTab';
+import {
+  CATEGORIES,
+  Categories,
+  Category,
+} from '@/constants/categories';
 import { FilterHeader } from '../components/FilterHeader';
 import { SortValue } from '@/types/options.types';
 import { SORT_OPTIONS } from '../constants/sortOptions';
@@ -62,16 +66,26 @@ export default function CommunityTabPage() {
     ? allPosts.length + (hasNextPage ? 10 : 0)
     : 0;
 
+  // 카테고리 필터링이 활성화된 경우에만 '전체' 항목 추가
+  const allCategory = { value: 'all' as Category, label: '전체' };
+  const tabCategories = [allCategory, ...CATEGORIES];
+
+  const listScrollRef = useRef<HTMLDivElement>(null);
+
   return (
     <div className="w-full h-full flex flex-col">
-      <CategoryTab
-        tabs={CATEGORIES}
-        defaultValue={category.value}
+      <PillChipsTab
+        chips={tabCategories}
+        activeValue={category.value}
         onChange={(value) => {
-          setCategory(
-            CATEGORIES.find((cat) => cat.value === value) ||
-              CATEGORIES[0],
-          );
+          if (value === 'all') {
+            setCategory(CATEGORIES[0]); // 전체 선택시 첫 번째 카테고리로 설정
+          } else {
+            setCategory(
+              CATEGORIES.find((cat) => cat.value === value) ||
+                CATEGORIES[0],
+            );
+          }
         }}
       />
       <FilterHeader
@@ -80,7 +94,10 @@ export default function CommunityTabPage() {
         filterValue={sortOption}
         onFilterChange={setSortOption}
       />
-      <div className="flex-1 overflow-y-auto px-4">
+      <div
+        ref={listScrollRef}
+        className="flex-1 overflow-y-auto px-4"
+      >
         {error ? (
           <div className="flex flex-col items-center justify-center py-12">
             <p className="text-red-500 text-center">
@@ -95,6 +112,7 @@ export default function CommunityTabPage() {
             isFetchingNextPage={isFetchingNextPage}
             isLoading={isLoading}
             type="freeboard"
+            parentRef={listScrollRef}
           />
         )}
       </div>

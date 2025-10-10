@@ -1,0 +1,71 @@
+'use client';
+import React, { useState } from 'react';
+import Button from '@/components/buttons/Button';
+import {
+  AddressSet,
+  LocationButton,
+} from './components/LocationButton';
+import { useToast } from '@/hooks/ui/useToast';
+import { useSetRegion } from '@/generated/api/endpoints/signup/signup';
+import { useSignupFlow } from '@/hooks/useSignupFlow';
+
+export default function RegionPage() {
+  const toast = useToast();
+  const { pushNext } = useSignupFlow();
+  const [address, setAddress] = useState<AddressSet | null>(null);
+
+  const { mutate, isPending } = useSetRegion({
+    mutation: {
+      onSuccess: () => {
+        console.log('지역이 성공적으로 저장되었습니다.');
+        pushNext('details');
+      },
+      onError: (error) => {
+        console.error('지역 저장에 실패했습니다.', error);
+        toast(
+          '서버 에러가 발생했습니다. 다시 시도해주세요.',
+          'error',
+        );
+      },
+    },
+  });
+  //버튼에서 주소를 선택했을 때 호출되는 핸들러
+  const handleAddressSelected = (address: AddressSet) => {
+    setAddress(address);
+  };
+  // 다음 버튼 클릭 핸들러
+  const handleNextButtonClick = () => {
+    if (!address) {
+      console.error('주소가 선택되지 않았습니다.');
+      return;
+    }
+    mutate({ data: { regionId: address.sigunguCode } });
+  };
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-center">
+      <div className=" pt-12 w-full h-full flex flex-col gap-[30px]">
+        <h1 className=" text-header1 dark:text-fontColor-gray1">
+          {address
+            ? '해당 지역이 맞으신가요?'
+            : '지역을 선택해 주세요'}
+        </h1>
+        <LocationButton
+          onAddressSelect={handleAddressSelected}
+          selectedAddress={address?.address ?? null}
+        />
+        <div className="flex-1" />
+      </div>
+
+      <Button
+        className="w-full mb-2"
+        variant="filled"
+        size="lg"
+        disabled={!address}
+        isLoading={isPending}
+        onClick={handleNextButtonClick}
+      >
+        다음
+      </Button>
+    </div>
+  );
+}
