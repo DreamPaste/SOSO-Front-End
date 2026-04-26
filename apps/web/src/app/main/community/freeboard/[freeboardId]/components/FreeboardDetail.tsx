@@ -2,8 +2,8 @@
 
 import { Eye } from 'lucide-react';
 import ImageSlider from '@/components/ImageSlider';
-import { UserProfile } from './UserProfile';
-import { UserTypeBadge } from './UserTypeBadge';
+import { UserProfile } from '@/components/users/UserProfile';
+import { UserTypeBadge } from '@/components/users/UserTypeBadge';
 import { relativeTime } from '@/utils/relativeTime';
 import type { FreeboardDetailResponse } from '@/generated/api/models';
 import LikeButtonPost from './LikeButtonPost';
@@ -18,8 +18,10 @@ import { formatCappedCount } from '@/utils/formatCount';
  */
 export default function FreeboardDetail({
   post,
+  blurDataUrls,
 }: {
   post: FreeboardDetailResponse;
+  blurDataUrls?: (string | undefined)[] | undefined;
 }) {
   const { author } = post;
 
@@ -64,6 +66,7 @@ export default function FreeboardDetail({
         {post.images.length > 0 && (
           <ImageSlider
             images={post.images.map((img) => img.imageUrl)}
+            blurDataUrls={blurDataUrls}
             className="w-full min-h-[200px]"
           />
         )}

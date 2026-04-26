@@ -36,6 +36,11 @@ const nextConfig = {
         source: '/api/auth/:path*',
         destination: `${apiBaseUrl}/auth/:path*`,
       },
+      // 회원가입 (세션 쿠키 공유 필요)
+      {
+        source: '/api/signup/:path*',
+        destination: `${apiBaseUrl}/signup/:path*`,
+      },
       // 현재 유저 정보 (SSR prefetch)
       {
         source: '/api/users/me',
@@ -48,17 +53,20 @@ const nextConfig = {
       },
       // 투표 게시판
       {
-        source: '/api/community/votesboard/:path*',
-        destination: `${apiBaseUrl}/community/votesboard/:path*`,
+        source: '/api/community/polls/:path*',
+        destination: `${apiBaseUrl}/community/polls/:path*`,
       },
     ];
   },
   //추후 제거 필요
   images: {
+    deviceSizes: [360, 414, 640, 768, 1024, 1280],
+    imageSizes: [20, 32, 45, 55, 80, 120, 200, 316, 375, 600],
     domains: [
       'picsum.photos',
       'k.kakaocdn.net', // 카카오 로그인 이미지
     ],
+    formats: ['image/webp'],
     remotePatterns: [
       {
         protocol: 'https',
